@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram/ui/main/util_pages/about_post.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 class Poster extends StatefulWidget {
@@ -146,7 +147,7 @@ class _PosterState extends State<Poster> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             height: 50,
                             child: Row(
@@ -178,7 +179,9 @@ class _PosterState extends State<Poster> {
                               FloatingActionButton(
                                   backgroundColor: Colors.black,
                                   onPressed: () async{
-                                    pic = await controller.takePicture();
+                                    await controller.takePicture().then((value) => {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=> AboutPost(image: value.path)))
+                                    });
                                     setState(() {});
                                     // await controller.takePicture();
                                   },
@@ -217,8 +220,9 @@ class _PosterState extends State<Poster> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: (){
-                              camIndex = camIndex == 1 ? 0 : 1;
-                              startCamera();
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> AboutPost(image: images[index].path,)));
+                              // camIndex = camIndex == 1 ? 0 : 1;
+                              // startCamera();
                           },
                           child: Expanded(
                               child: Container(
