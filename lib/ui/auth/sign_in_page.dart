@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagram/ui/auth/sign_up_page.dart';
+import 'package:instagram/ui/main/util_pages/home_page.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -72,23 +73,28 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                       ),
                       const SizedBox(height: 20,),
-                      Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.only(right: 30,left: 30),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.white54
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomePage()));
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.only(right: 30,left: 30),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.white54
+                            ),
+                              borderRadius: BorderRadius.circular(7)
                           ),
-                            borderRadius: BorderRadius.circular(7)
+                          child: const Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child: Text(
+                                'Sign In',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )
                         ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(12.0),
-                          child: Text(
-                              'Sign In',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        )
                       ),
                     ],
                   )
