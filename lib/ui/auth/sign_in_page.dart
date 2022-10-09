@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram/service/local/shared_pref/auth.dart';
+import 'package:instagram/service/network/firebase/auth.dart';
 import 'package:instagram/ui/auth/sign_up_page.dart';
 import 'package:instagram/ui/main/util_pages/home_page.dart';
 
@@ -10,6 +13,31 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  bool isLoading = true;
+
+  void _signIn(){
+    if(email.text.isNotEmpty || password.text.isNotEmpty){
+      AuthService.signInUser(context, email.text.trim(), password.text.trim()).then((value) => {
+        if(value!.uid.isNotEmpty){
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage(),)),
+        },
+        Prefs.saveUserId(value.uid),
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    if(!isLoading){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage(),));
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,9 +73,10 @@ class _SignInPageState extends State<SignInPage> {
                             color: Colors.white54.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(7)
                         ),
-                        child: const TextField(
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
+                        child: TextField(
+                          controller: email,
+                          style: const TextStyle(color: Colors.white),
+                          decoration: const InputDecoration(
                               hintText: 'Email',
                             border: InputBorder.none,
                             hintStyle: TextStyle(color: Colors.white54)
@@ -63,9 +92,10 @@ class _SignInPageState extends State<SignInPage> {
                             color: Colors.white54.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(7)
                         ),
-                        child: const TextField(
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
+                        child: TextField(
+                          controller: password,
+                          style: const TextStyle(color: Colors.white),
+                          decoration: const InputDecoration(
                               hintText: 'Password',
                             border: InputBorder.none,
                             hintStyle: TextStyle(color: Colors.white54)
@@ -75,25 +105,30 @@ class _SignInPageState extends State<SignInPage> {
                       const SizedBox(height: 20,),
                       GestureDetector(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomePage()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomePage()));
                         },
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.only(right: 30,left: 30),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.white54
+                        child: GestureDetector(
+                          onTap: (){
+                            _signIn();
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.only(right: 30,left: 30),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.white54
+                              ),
+                                borderRadius: BorderRadius.circular(7)
                             ),
-                              borderRadius: BorderRadius.circular(7)
+                            child: const Padding(
+                              padding: EdgeInsets.all(12.0),
+                              child: Text(
+                                  'Sign In',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            )
                           ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(12.0),
-                            child: Text(
-                                'Sign In',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          )
                         ),
                       ),
                     ],

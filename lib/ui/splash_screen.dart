@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:instagram/service/local/shared_pref/auth.dart';
 import 'package:instagram/ui/auth/sign_in_page.dart';
+import 'package:instagram/ui/main/util_pages/home_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -19,7 +21,15 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _callSignInPage(){
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const SignInPage()));
+    Widget widget = const SignInPage();
+    Prefs.loadUserId().then((value) => {
+      if(value!.isNotEmpty){
+        widget = const HomePage()
+      }
+    });
+
+
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> widget));
   }
 
   @override

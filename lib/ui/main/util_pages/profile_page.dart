@@ -11,8 +11,211 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('Profile'),
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        actions: const [
+          Icon(Icons.add_box_outlined,size: 30,),
+          SizedBox(width: 10,),
+          Icon(Icons.menu,size: 30,),
+          SizedBox(width: 10,)
+        ],
+        leadingWidth: 0,
+        leading: Container(),
+        backgroundColor: Colors.black,
+        title: const Text(
+            'uzcoderr',
+          style: TextStyle(
+            fontSize: 24
+          ),
+        ),
+      ),
+      body: Column(
+        children: [
+          const Divider(
+            color: Colors.white70,
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(3),
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    gradient: const LinearGradient(
+                        colors: [
+                          Color.fromRGBO(193, 53, 132, 1),
+                          Color.fromRGBO(131, 58, 180, 1),
+                    ])
+                  ),
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      image: const DecorationImage(
+                        fit: BoxFit.cover,
+                          image: AssetImage('assets/image/img.jpg'))
+                    ),
+                  ),
+                ),
+                Expanded(
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child:
+                              Column(
+                               children: const [
+                                  Text(
+                                      '2.5k',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20
+                                    ),
+                                  ),
+                                 SizedBox(
+                                   height: 5,
+                                 ),
+                                 Text(
+                                   'Posts',
+                                   style: TextStyle(
+                                       color: Colors.white70
+                                   ),
+                                 )
+                                ],
+                              )
+                        ),
+                        Expanded(
+                            child:
+                            Column(
+                              children: const [
+                                Text(
+                                  '1M',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  'Followers',
+                                  style: TextStyle(
+                                      color: Colors.white70
+                                  ),
+                                )
+                              ],
+                            )
+                        ),
+                        Expanded(
+                            child:
+                            Column(
+                              children: const [
+                                Text(
+                                  '134',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                    'Following',
+                                  style: TextStyle(
+                                    color: Colors.white70
+                                  ),
+                                )
+                              ],
+                            )
+                        ),
+                      ],
+                    ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(left: 15,top: 10),
+            width: double.infinity,
+            alignment: Alignment.centerLeft,
+            child: const Text(
+                'Azizbek Xoliqov',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold
+              ),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(left: 15,top: 5,right: 5),
+            width: double.infinity,
+            alignment: Alignment.centerLeft,
+            child: const Text(
+              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley',
+              style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white70
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.only(top: 20,left: 15,right: 15),
+            width: double.infinity,
+            height: 40,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(
+                color: Colors.white70
+              )
+            ),
+            child: const Text(
+                'Edit Profile',
+              style: TextStyle(
+                fontSize: 18
+              ),
+            ),
+          ),
+          const SizedBox(height: 20,),
+          Row(
+            children: const [
+              Expanded(
+                  child: Center(
+                    child: Icon(Icons.grid_on),
+                  )
+              ),
+              Expanded(
+                  child: Center(
+                    child: Icon(Icons.supervised_user_circle_outlined),
+                  )
+              ),
+            ],
+          ),
+          const Divider(),
+          Expanded(
+              child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 5.0,
+                    mainAxisSpacing: 5.0,
+                  ),
+                  itemCount: 20,
+                  itemBuilder: (context, index) {
+                    return Expanded(
+                        child: Image.asset(
+                          fit: BoxFit.cover,
+                            'assets/image/img.jpg'
+                        )
+                    );
+                  },
+              )
+          )
+        ],
       ),
     );
   }

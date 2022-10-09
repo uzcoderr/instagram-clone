@@ -1,4 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:instagram/service/local/shared_pref/auth.dart';
+import 'package:instagram/service/network/firebase/auth.dart';
+import 'package:instagram/ui/main/util_pages/home_page.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -8,6 +13,18 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+
+  TextEditingController email = TextEditingController();
+  TextEditingController fullName = TextEditingController();
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  void _signUp(){
+    AuthService.signUpUser(context, fullName.text.trim(), email.text.trim(), password.text.trim()).then((value) => {
+      Prefs.saveUserId(value!.uid)
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,9 +60,10 @@ class _SignUpPageState extends State<SignUpPage> {
                               color: Colors.white54.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(7)
                           ),
-                          child: const TextField(
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
+                          child: TextField(
+                            controller: email,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: const InputDecoration(
                                 hintText: 'Email',
                                 border: InputBorder.none,
                                 hintStyle: TextStyle(color: Colors.white54)
@@ -61,9 +79,10 @@ class _SignUpPageState extends State<SignUpPage> {
                               color: Colors.white54.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(7)
                           ),
-                          child: const TextField(
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
+                          child: TextField(
+                            controller: fullName,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: const InputDecoration(
                                 hintText: 'Full Name',
                                 border: InputBorder.none,
                                 hintStyle: TextStyle(color: Colors.white54)
@@ -79,9 +98,10 @@ class _SignUpPageState extends State<SignUpPage> {
                               color: Colors.white54.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(7)
                           ),
-                          child: const TextField(
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
+                          child: TextField(
+                            controller: username,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: const InputDecoration(
                                 hintText: 'Username',
                                 border: InputBorder.none,
                                 hintStyle: TextStyle(color: Colors.white54)
@@ -97,9 +117,10 @@ class _SignUpPageState extends State<SignUpPage> {
                               color: Colors.white54.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(7)
                           ),
-                          child: const TextField(
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
+                          child: TextField(
+                            controller: password,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: const InputDecoration(
                                 hintText: 'Password',
                                 border: InputBorder.none,
                                 hintStyle: TextStyle(color: Colors.white54)
@@ -107,23 +128,29 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         const SizedBox(height: 20,),
-                        Container(
-                            alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.only(right: 30,left: 30),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.white54
-                                ),
-                                borderRadius: BorderRadius.circular(7)
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(12.0),
-                              child: Text(
-                                'Sign Up',
-                                style: TextStyle(color: Colors.white),
+                        GestureDetector(
+                          onTap: (){
+                            _signUp();
+                            // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage(),));
+                          },
+                          child: Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.only(right: 30,left: 30),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.white54
+                                  ),
+                                  borderRadius: BorderRadius.circular(7)
                               ),
-                            )
+                              child: const Padding(
+                                padding: EdgeInsets.all(12.0),
+                                child: Text(
+                                  'Sign Up',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              )
+                          ),
                         ),
                       ],
                     )
