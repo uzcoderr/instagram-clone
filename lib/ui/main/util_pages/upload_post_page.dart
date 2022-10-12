@@ -24,7 +24,6 @@ class _UploadPostState extends State<UploadPost> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

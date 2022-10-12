@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:instagram/service/local/shared_pref/auth.dart';
 import 'package:instagram/service/network/firebase/auth.dart';
-import 'package:instagram/ui/main/util_pages/home_page.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);

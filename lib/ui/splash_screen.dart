@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             const Expanded(
                 child: Center(
-              child: Text(
+                  child: Text(
                 'Instagram',
                 style: TextStyle(fontFamily: 'Billabong', color: Colors.white,fontSize: 50),
               ),

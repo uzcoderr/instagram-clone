@@ -31,12 +31,11 @@ class _PosterState extends State<Poster> {
     super.dispose();
   }
 
-  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    final CameraController? cameraController = controller;
+    final CameraController cameraController = controller;
 
     // App state changed before we got the chance to initialize.
-    if (cameraController == null || !cameraController.value.isInitialized) {
+    if (!cameraController.value.isInitialized) {
       return;
     }
 
@@ -79,7 +78,7 @@ class _PosterState extends State<Poster> {
 
     final recentAssets = await recentAlbum.getAssetListRange(
       start: 0, // start at index 0
-      end: 1000000, // end at a very big index (to get all the assets)
+      end: 150, // end at a very big index (to get all the assets)
     );
 
     setState(() => assets = recentAssets);
@@ -98,9 +97,10 @@ class _PosterState extends State<Poster> {
         });
       }
     } catch (e) {
-      print('xato');
+      print('Azizbek');
     }
   }
+
 
   XFile? pic;
 
@@ -227,13 +227,14 @@ class _PosterState extends State<Poster> {
                           child: Expanded(
                               child: Container(
                                 decoration: const BoxDecoration(
-                                    color: Colors.blue
+                                    color: Colors.transparent
                                 ),
+                                // ignore: unnecessary_null_comparison
                                 child: images[index] != null ?
                                 Image.file(
                                     fit: BoxFit.cover,
                                     File(images[index].path)
-                                ) : const CircularProgressIndicator()
+                                ) : Container()
                                 ,)),
                         );
                       },

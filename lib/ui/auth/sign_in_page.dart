@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram/service/local/shared_pref/auth.dart';
 import 'package:instagram/service/network/firebase/auth.dart';
