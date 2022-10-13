@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram/service/network/firebase/firestore.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -8,6 +9,28 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  String username = "username", fullName = "Full Name";
+
+  loadUser(){
+    DataService.loadUser().then((value) => {
+      setState((){
+        username = value.username;
+        fullName = value.fullName;
+      })
+    });
+  }
+
+  void pickImage(){
+
+  }
+
+  @override
+  void initState() {
+    loadUser();
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,9 +45,9 @@ class _ProfilePageState extends State<ProfilePage> {
         leadingWidth: 0,
         leading: Container(),
         backgroundColor: Colors.black,
-        title: const Text(
-            'uzcoderr',
-          style: TextStyle(
+        title: Text(
+            username,
+          style: const TextStyle(
             fontSize: 24
           ),
         ),
@@ -143,9 +166,9 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: const EdgeInsets.only(left: 15,top: 10),
             width: double.infinity,
             alignment: Alignment.centerLeft,
-            child: const Text(
-                'Azizbek Xoliqov',
-              style: TextStyle(
+            child: Text(
+                fullName,
+              style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold
               ),

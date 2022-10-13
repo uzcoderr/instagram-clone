@@ -1,6 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram/service/local/shared_pref/auth.dart';
 import 'package:instagram/service/network/firebase/auth.dart';
+import 'package:instagram/service/network/firebase/firestore.dart';
+import 'package:instagram/ui/main/util_pages/home_page.dart';
+
+import '../../models/User.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -17,8 +22,34 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController password = TextEditingController();
 
   void _signUp(){
+    User? user;
     AuthService.signUpUser(context, fullName.text.trim(), email.text.trim(), password.text.trim()).then((value) => {
-      Prefs.saveUserId(value!.uid)
+      // Prefs.saveUserId(value!.uid)
+      if(!value.containsKey("SUCCESS")){
+        if(value.containsKey("ERROR_EMAIL_ALREADY_IN_USE")){
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('ERROR_EMAIL_ALREADY_IN_USE'),
+          ),)
+        },
+        if(value.containsKey("ERROR")){
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('ERROR'),
+            ),),
+        }
+      },
+      user = value["SUCCESS"],
+      Prefs.saveUserId(user!.uid),
+      DataService.storeUser(
+        MyUser(
+            fullName: fullName.text.trim(),
+            email: email.text.trim(),
+            password: password.text.trim(),
+            username: username.text.trim(),
+            imageUrl: "",
+        )
+      ).then((value) => {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()))
+      })
     });
   }
 

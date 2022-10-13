@@ -1,7 +1,7 @@
-
-class User {
+class MyUser {
   String uid = "";
   String fullName = "";
+  String username = "";
   String email = "";
   String password = "";
   String imageUrl = "";
@@ -10,41 +10,44 @@ class User {
   int followers = 0;
   int following = 0;
 
-  User({
-    required this.uid,
+  MyUser({
+    // required this.uid,
     required this.fullName,
     required this.email,
     required this.password,
+    required this.username,
     required this.imageUrl,
-    required this.followed,
-    required this.followers,
-    required this.following,
+    // required this.followed,
+    // required this.followers,
+    // required this.following,
   });
 
-  User.fromJson(Map<String, dynamic> json)
-      : uid = json["uid"],
-        fullName = json["fullName"],
+  MyUser.fromJson(Map<String, dynamic> json)
+      // : uid = json["uid"],
+      : fullName = json["fullName"],
+        imageUrl = json["imageUrl"],
         email = json["email"],
         password = json["password"],
-        imageUrl = json["imageUrl"],
-        followed = json["followed"],
-        followers = json["followers"],
-        following = json["following"];
+        username = json["username"];
 
+  // followed = json["followed"],
+  // followers = json["followers"],
+  // following = json["following"];
 
   Map<String, dynamic> toJson() => {
-    'uid': uid,
-    'fullName': fullName,
-    'email': email,
-    'password': password,
-    'imageUrl': imageUrl,
-    'followed': followed,
-    'followers': followers,
-    'following': following,
-  };
+        // 'uid': uid,
+        'fullName': fullName,
+        'email': email,
+        'password': password,
+        'username': username,
+        'imageUrl': imageUrl,
+        // 'followed': followed,
+        // 'followers': followers,
+        // 'following': following,
+      };
 
   @override
   bool operator ==(other) {
-    return (other is User) && other.uid == uid;
+    return (other is MyUser) && other.uid == uid;
   }
 }
