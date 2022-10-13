@@ -25,11 +25,16 @@ class DataService {
   }
 
   static Future<List<MyUser>> searchUser(String key) async {
+    var uid = await Prefs.loadUserId();
     List<MyUser> users = [];
     final instance = FirebaseFirestore.instance;
     var snapshot = await instance.collection("users").orderBy("username").startAt([key]).get();
+    // var snapshot = await instance.collection("users").get();
     for (var element in snapshot.docs) {
-      users.add(MyUser.fromJson(element.data()));
+      MyUser user = MyUser.fromJson(element.data());
+      if(user.uid != uid){
+        users.add(user);
+      }
     }
     return users;
   }

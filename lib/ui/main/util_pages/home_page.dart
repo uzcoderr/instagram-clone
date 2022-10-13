@@ -29,9 +29,9 @@ class _HomePageState extends State<HomePage> {
   Widget bottomNav(){
     return CustomNavigationBar(
       iconSize: 30.0,
-      selectedColor: const Color.fromRGBO(131, 58, 180, 1),
-      strokeColor: const Color.fromRGBO(131, 58, 180, 1),
-      unSelectedColor: const Color(0xffacacac),
+      selectedColor: Colors.blue,
+      strokeColor: Colors.blue,
+      unSelectedColor: Colors.white,
       backgroundColor: Colors.black,
       items: [
         CustomNavigationBarItem(

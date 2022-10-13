@@ -17,6 +17,7 @@ class MyUser {
     required this.password,
     required this.username,
     required this.imageUrl,
+    required this.uid,
     // required this.followed,
     // required this.followers,
     // required this.following,
@@ -28,6 +29,7 @@ class MyUser {
         imageUrl = json["imageUrl"],
         email = json["email"],
         password = json["password"],
+        uid = json["uid"],
         username = json["username"];
 
   // followed = json["followed"],
@@ -37,10 +39,11 @@ class MyUser {
   Map<String, dynamic> toJson() => {
         // 'uid': uid,
         'fullName': fullName,
+        'imageUrl': imageUrl,
         'email': email,
         'password': password,
         'username': username,
-        'imageUrl': imageUrl,
+        'uid': uid,
         // 'followed': followed,
         // 'followers': followers,
         // 'following': following,

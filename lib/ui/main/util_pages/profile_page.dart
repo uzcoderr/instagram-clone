@@ -1,5 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:instagram/service/network/firebase/firestore.dart';
+import 'package:instagram/service/network/firebase/upload_post_profile_photo.dart';
+
+import '../../../models/User.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -10,19 +16,43 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
-  String username = "username", fullName = "Full Name";
+  String username = "username", fullName = "Full Name", userImg = "assets/image/img.jpg";
 
   loadUser(){
     DataService.loadUser().then((value) => {
       setState((){
         username = value.username;
         fullName = value.fullName;
+        userImg = value.imageUrl;
       })
     });
   }
 
-  void pickImage(){
+  bool uploadIngImage = false;
 
+  void pickImage() async{
+    XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    MyUser user = await DataService.loadUser();
+    if(image != null){
+      setState(() {
+        uploadIngImage = true;
+      });
+    }
+    FileService.uploadUserImage(image!).then((value) => {
+      user.imageUrl = value,
+      updateUser(user),
+    });
+
+  }
+
+  updateUser(MyUser user) async{
+    await DataService.updateUser(user);
+    setState((){
+      userImg = user.imageUrl;
+      setState(() {
+        uploadIngImage = false;
+      });
+    });
   }
 
   @override
@@ -73,15 +103,28 @@ class _ProfilePageState extends State<ProfilePage> {
                           Color.fromRGBO(131, 58, 180, 1),
                     ])
                   ),
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      image: const DecorationImage(
-                        fit: BoxFit.cover,
-                          image: AssetImage('assets/image/img.jpg'))
-                    ),
+                  child: Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          pickImage();
+                        },
+                        child: Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                                image: NetworkImage(userImg)
+                            )
+                          ),
+                        ),
+                      ),
+                      uploadIngImage ? const Center(
+                        child: CircularProgressIndicator(),
+                      ) : Container()
+                    ],
                   ),
                 ),
                 Expanded(

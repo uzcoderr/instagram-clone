@@ -21,7 +21,8 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  void _signUp(){
+
+  void _signUp() async{
     User? user;
     AuthService.signUpUser(context, fullName.text.trim(), email.text.trim(), password.text.trim()).then((value) => {
       // Prefs.saveUserId(value!.uid)
@@ -46,6 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
             password: password.text.trim(),
             username: username.text.trim(),
             imageUrl: "",
+            uid: user!.uid
         )
       ).then((value) => {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()))
