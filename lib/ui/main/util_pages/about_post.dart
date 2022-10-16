@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class AboutPost extends StatefulWidget {
   String image;
   AboutPost({required this.image, Key? key}) : super(key: key);
