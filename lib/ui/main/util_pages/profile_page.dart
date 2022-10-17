@@ -6,6 +6,7 @@ import 'package:instagram/service/network/firebase/firestore.dart';
 import 'package:instagram/service/network/firebase/upload_post_profile_photo.dart';
 
 import '../../../models/User.dart';
+import '../../../models/post_model.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -18,7 +19,22 @@ class _ProfilePageState extends State<ProfilePage> {
 
   String username = "username", fullName = "Full Name", userImg = "assets/image/img.jpg";
 
+  List<Post> posts = [];
+
+  loadPosts(){
+    DataService.loadPosts().then((value) => {
+      setData(value)
+    });
+  }
+
+  setData(List<Post> postsList){
+    setState(() {
+      posts = postsList;
+    });
+  }
+
   loadUser(){
+    loadPosts();
     DataService.loadUser().then((value) => {
       setState((){
         username = value.username;
@@ -133,18 +149,18 @@ class _ProfilePageState extends State<ProfilePage> {
                         Expanded(
                             child:
                               Column(
-                               children: const [
+                               children: [
                                   Text(
-                                      '2.5k',
-                                    style: TextStyle(
+                                      posts.length.toString(),
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20
                                     ),
                                   ),
-                                 SizedBox(
+                                 const SizedBox(
                                    height: 5,
                                  ),
-                                 Text(
+                                 const Text(
                                    'Posts',
                                    style: TextStyle(
                                        color: Colors.white70
@@ -270,13 +286,18 @@ class _ProfilePageState extends State<ProfilePage> {
                     crossAxisSpacing: 5.0,
                     mainAxisSpacing: 5.0,
                   ),
-                  itemCount: 20,
+                  itemCount: posts.length,
                   itemBuilder: (context, index) {
-                    return Expanded(
-                        child: Image.asset(
-                          fit: BoxFit.cover,
-                            'assets/image/img.jpg'
-                        )
+                    return Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.blue
+                      ),
+                      child: Expanded(
+                          child: Image.network(
+                            fit: BoxFit.cover,
+                            posts[index].img_post
+                          )
+                      ),
                     );
                   },
               )

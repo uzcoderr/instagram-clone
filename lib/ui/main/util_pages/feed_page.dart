@@ -145,21 +145,23 @@ class _FeedPageState extends State<FeedPage> {
                       Padding(
                         padding: const EdgeInsets.only(left: 7,top: 5),
                         child: Row(
-                          children: const [
-                            Padding(
+                          children: [
+                            const Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Icon(FontAwesomeIcons.heart),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(FontAwesomeIcons.comment),
+                              padding: const EdgeInsets.all(8.0),
+                              child: Transform.rotate(
+                                angle: 5.5,
+                                  child: const Icon(Icons.send)),
                             ),
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: Icon(FontAwesomeIcons.paperPlane),
+                              child: Icon(Icons.share),
                             ),
-                            Expanded(child: Center()),
-                            Padding(
+                            const Expanded(child: Center()),
+                            const Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Icon(FontAwesomeIcons.bookmark),
                             )

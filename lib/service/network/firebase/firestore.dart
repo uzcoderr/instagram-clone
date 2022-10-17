@@ -90,4 +90,18 @@ class DataService {
     return posts;
   }
 
+  static Future<List<Post>> loadPosts() async{
+    List<Post> posts = [];
+    String? uid = await Prefs.loadUserId();
+    final instance = FirebaseFirestore.instance;
+
+    var query = await instance.collection(folder_user).doc(uid).collection(folder_posts).get();
+
+    for (var element in query.docs) {
+      Post post = Post.fromJson(element.data());
+      posts.add(post);
+    }
+    return posts;
+  }
+
 }
