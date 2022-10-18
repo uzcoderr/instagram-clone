@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram/service/network/firebase/firestore.dart';
@@ -31,6 +32,14 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       posts = postsList;
     });
+  }
+
+  _actionRemovePost(Post post,bool result) async{
+    if(result != null && result){
+      DataService.removePost(post).then((value) => {
+        loadPosts(),
+      });
+    }
   }
 
   loadUser(){
@@ -290,15 +299,28 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   itemCount: posts.length,
                   itemBuilder: (context, index) {
-                    return Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.blue
-                      ),
-                      child: Expanded(
-                          child: Image.network(
-                            fit: BoxFit.cover,
-                            posts[index].img_post
-                          )
+                    return CupertinoContextMenu(
+                      actions: [
+                        CupertinoContextMenuAction(
+                          onPressed: () {
+                            _actionRemovePost(posts[index], true);
+                          },
+                            child: const Text('Remove')
+                        ),
+                        const CupertinoContextMenuAction(
+                            child: Text('Like')
+                        ),
+                      ],
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.blue
+                        ),
+                        child: Expanded(
+                            child: Image.network(
+                              fit: BoxFit.cover,
+                              posts[index].img_post
+                            )
+                        ),
                       ),
                     );
                   },

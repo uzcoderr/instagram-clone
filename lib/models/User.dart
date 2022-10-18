@@ -6,6 +6,10 @@ class MyUser {
   String password = "";
   String imageUrl = "";
 
+  String device_id = "";
+  String device_type = "";
+  String device_token = "";
+
   bool followed = false;
   String followers = "0";
   String following = "0";
@@ -30,6 +34,9 @@ class MyUser {
         email = json["email"],
         password = json["password"],
         uid = json["uid"],
+        device_id = json['device_id'],
+        device_type = json['device_type'],
+        device_token = json['device_token'],
         username = json["username"],
         followed = json["followed"],
         followers = json["followers"],
@@ -46,6 +53,9 @@ class MyUser {
         'followed': followed,
         'followers': followers,
         'following': following,
+        'device_id': device_id,
+        'device_type': device_type,
+        'device_token': device_token,
       };
 
   @override

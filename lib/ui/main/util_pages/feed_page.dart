@@ -48,6 +48,15 @@ class _FeedPageState extends State<FeedPage> {
         });
   }
 
+  _actionRemovePost(Post post,bool result) async{
+    if(result){
+      DataService.removePost(post).then((value) => {
+        loadFeed(),
+      });
+    }
+  }
+
+
   @override
   void initState() {
     loadFeed();
@@ -123,7 +132,90 @@ class _FeedPageState extends State<FeedPage> {
                         ],
                       ),
                       Expanded(child: Container()),
-                      const Icon(Icons.more_horiz)
+                      posts[index].mine ? GestureDetector(
+                        onTap: (){
+                          showDialog(
+                            barrierColor: Colors.black26,
+                            context: context, builder: (context) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5)
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 290,bottom: 290,right: 90,left: 90),
+                                child: Stack(
+                                  children: [
+                                    Blur(
+                                      blur: 10,
+                                        borderRadius: BorderRadius.circular(15),
+                                        blurColor: Colors.white,
+                                        child: Container()),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(5)
+                                      ),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const Padding(
+                                              padding: EdgeInsets.only(top:10.0,right:10.0,left:10.0),
+                                              child: Text(
+                                                  'Delete Post ?',
+                                                style: TextStyle(
+                                                  fontSize: 37,
+                                                  fontFamily: 'Billabong'
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                                child: Container(
+                                                  padding: const EdgeInsets.all(9),
+                                                  child: const Text(
+                                                      'Accompanied bys dasmnb, mdnbasb damsnbd mnabsdmn basmn ds English versions from the 1914 translation by H. Rackham.Accompanied by English versions from the 1914 translation by H. Rackham.',
+                                                      style: TextStyle(
+                                                      fontSize: 16,
+                                                  ),
+                                                  ),
+                                                )
+                                            ),
+                                            Expanded(
+                                              child: Column(
+                                                children: [
+                                                  const Expanded(child: SizedBox.shrink()),
+                                                  Expanded(
+                                                    child: GestureDetector(
+                                                      onTap: (){
+                                                        _actionRemovePost(posts[index], true);
+                                                      },
+                                                      child: Container(
+                                                        width: double.infinity,
+                                                        alignment: Alignment.center,
+                                                        child: const Text(
+                                                            'Delete',
+                                                          style: TextStyle(
+                                                            fontWeight: FontWeight.bold,
+                                                            color: Color.fromARGB(
+                                                                255, 206, 82, 82),
+                                                            fontSize: 20,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },);
+                        },
+                          child: const Icon(Icons.more_horiz)
+                      ) : const SizedBox.shrink()
                     ],
                   ),
                 ),
@@ -160,16 +252,21 @@ class _FeedPageState extends State<FeedPage> {
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: GestureDetector(
-                          onDoubleTap: () {
-                            if (posts[index].liked) {
-                              unLikedClick(posts[index]);
-                            } else {
-                              likedClick(posts[index]);
-                            }
-                          },
-                          child: Image.network(posts[index].img_post),
+                      InteractiveViewer(
+                        constrained: true,
+                        panEnabled: true,
+                        clipBehavior: Clip.none,
+                        child: Expanded(
+                          child: GestureDetector(
+                            onDoubleTap: () {
+                              if (posts[index].liked) {
+                                unLikedClick(posts[index]);
+                              } else {
+                                likedClick(posts[index]);
+                              }
+                            },
+                            child: Image.network(posts[index].img_post),
+                          ),
                         ),
                       ),
                     ],

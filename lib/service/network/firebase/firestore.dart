@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info/device_info.dart';
 import 'package:instagram/models/User.dart';
 import 'package:instagram/service/local/shared_pref/auth.dart';
 
@@ -21,6 +24,13 @@ class DataService {
 
   static Future storeUser(MyUser user) async {
     user.uid = (await Prefs.loadUserId())!;
+    Map<String, String> params = await deviceParams();
+    print(params.toString());
+
+    user.device_id = params["device_id"]!;
+    user.device_type = params["device_type"]!;
+    user.device_token = params["device_token"]!;
+
     final instance = FirebaseFirestore.instance;
     return instance.collection(folder_user).doc(user.uid).set(user.toJson());
   }
@@ -115,6 +125,7 @@ class DataService {
 
     for (var element in query.docs) {
       Post post = Post.fromJson(element.data());
+      if(post.uid == uid) post.mine = true;
       posts.add(post);
     }
     return posts;
@@ -231,4 +242,26 @@ class DataService {
         .collection(folder_posts).doc(post.id).delete();
   }
 
+  static Future<Map<String, String>>  deviceParams() async{
+    Map<String, String> params = {};
+    var deviceInfo = DeviceInfoPlugin();
+    String? fcmToken = await Prefs.loadFCM();
+
+    if (Platform.isIOS) {
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      params.addAll({
+        'device_id': iosDeviceInfo.identifierForVendor,
+        'device_type': "I",
+        'device_token': fcmToken!,
+      });
+    } else {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      params.addAll({
+        'device_id': androidDeviceInfo.androidId,
+        'device_type': "A",
+        'device_token': fcmToken!,
+      });
+    }
+    return params;
+  }
 }
