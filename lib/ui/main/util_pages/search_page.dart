@@ -22,6 +22,23 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
+  void _apiFollowUser(MyUser someone) async{
+    await DataService.followUser(someone);
+    setState(() {
+      someone.followed = true;
+    });
+    DataService.storePostsToMyFeed(someone);
+  }
+
+  void _apiUnfollowUser(MyUser someone) async{
+    await DataService.unfollowUser(someone);
+    setState(() {
+      someone.followed = false;
+    });
+    DataService.removePostsFromMyFeed(someone);
+  }
+
+
   @override
   void initState() {
     searchUsers(search.text.trim());
@@ -140,15 +157,24 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                         ),
                         Expanded(child: Container()),
-                        Container(
-                          padding: const EdgeInsets.only(left: 20,right: 20,top: 7,bottom: 7),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.white
-                            )
+                        GestureDetector(
+                          onTap: (){
+                            if(users[index].followed){
+                              _apiUnfollowUser(users[index]);
+                            }else{
+                              _apiFollowUser(users[index]);
+                            }
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.only(left: 20,right: 20,top: 7,bottom: 7),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                color: Colors.white
+                              )
+                            ),
+                            child: users[index].followed ? const Text("Following") : const Text("Follow"),
                           ),
-                          child: const Text('Follow'),
                         )
                       ],
                     ),

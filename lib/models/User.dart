@@ -7,8 +7,8 @@ class MyUser {
   String imageUrl = "";
 
   bool followed = false;
-  int followers = 0;
-  int following = 0;
+  String followers = "0";
+  String following = "0";
 
   MyUser({
     // required this.uid,
@@ -30,11 +30,10 @@ class MyUser {
         email = json["email"],
         password = json["password"],
         uid = json["uid"],
-        username = json["username"];
-
-  // followed = json["followed"],
-  // followers = json["followers"],
-  // following = json["following"];
+        username = json["username"],
+        followed = json["followed"],
+        followers = json["followers"],
+        following = json["following"];
 
   Map<String, dynamic> toJson() => {
         // 'uid': uid,
@@ -44,9 +43,9 @@ class MyUser {
         'password': password,
         'username': username,
         'uid': uid,
-        // 'followed': followed,
-        // 'followers': followers,
-        // 'following': following,
+        'followed': followed,
+        'followers': followers,
+        'following': following,
       };
 
   @override

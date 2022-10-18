@@ -29,7 +29,15 @@ class DataService {
     String uid = (await Prefs.loadUserId())!;
     final instance = FirebaseFirestore.instance;
     var val = await instance.collection("users").doc(uid).get();
-    return MyUser.fromJson(val.data()!);
+    MyUser user = MyUser.fromJson(val.data()!);
+
+    var querySnapshot1 = await instance.collection(folder_user).doc(uid).collection(folder_followers).get();
+    user.followers = querySnapshot1.docs.length.toString();
+
+    var querySnapshot2 = await instance.collection(folder_user).doc(uid).collection(folder_following).get();
+    user.following = querySnapshot2.docs.length.toString();
+
+    return user;
   }
 
   static Future updateUser(MyUser user) async {

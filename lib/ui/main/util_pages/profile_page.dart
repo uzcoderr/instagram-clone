@@ -17,7 +17,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
 
-  String username = "username", fullName = "Full Name", userImg = "assets/image/img.jpg";
+  String username = "username", fullName = "Full Name", userImg = "assets/image/img.jpg", followers = "0", following = "0";
 
   List<Post> posts = [];
 
@@ -40,6 +40,8 @@ class _ProfilePageState extends State<ProfilePage> {
         username = value.username;
         fullName = value.fullName;
         userImg = value.imageUrl;
+        followers = value.followers;
+        following = value.following;
       })
     });
   }
@@ -172,18 +174,18 @@ class _ProfilePageState extends State<ProfilePage> {
                         Expanded(
                             child:
                             Column(
-                              children: const [
+                              children: [
                                 Text(
-                                  '1M',
-                                  style: TextStyle(
+                                  followers,
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
-                                Text(
+                                const Text(
                                   'Followers',
                                   style: TextStyle(
                                       color: Colors.white70
@@ -195,18 +197,18 @@ class _ProfilePageState extends State<ProfilePage> {
                         Expanded(
                             child:
                             Column(
-                              children: const [
+                              children: [
                                 Text(
-                                  '134',
-                                  style: TextStyle(
+                                  following,
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
-                                Text(
+                                const Text(
                                     'Following',
                                   style: TextStyle(
                                     color: Colors.white70
