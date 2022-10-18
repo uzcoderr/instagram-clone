@@ -90,7 +90,7 @@ class _PosterState extends State<Poster> {
       for (int i = 0; i < assets.length; i++) {
         assets[i].file.then((value) => {
           setState(() {
-            if(value!.path.endsWith('.jpg') || value.path.endsWith('.png')){
+            if(value!.path.endsWith('.jpg') || value.path.endsWith('.jpg')){
               images.add(value);
             }
           })
@@ -100,7 +100,6 @@ class _PosterState extends State<Poster> {
       print('Azizbek');
     }
   }
-
 
   XFile? pic;
 
@@ -233,7 +232,7 @@ class _PosterState extends State<Poster> {
                                 child: images[index] != null ?
                                 Image.file(
                                     fit: BoxFit.cover,
-                                    File(images[index].path)
+                                    File(images[index].path),
                                 ) : Container()
                                 ,)),
                         );

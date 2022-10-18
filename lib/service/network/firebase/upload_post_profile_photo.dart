@@ -1,6 +1,9 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram/service/local/shared_pref/auth.dart';
 
@@ -31,5 +34,14 @@ class FileService{
     String url = await taskSnapshot.ref.getDownloadURL();
     return url;
   }
+
+  static Future<List> CompressAndGetFile(List list) async {
+    var result = await FlutterImageCompress.compressWithList(
+      list as Uint8List,
+      quality: 88,
+    );
+    return result;
+  }
+
 
 }

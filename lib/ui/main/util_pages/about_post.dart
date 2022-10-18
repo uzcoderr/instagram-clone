@@ -5,6 +5,8 @@ import 'package:instagram/models/post_model.dart';
 import 'package:instagram/service/network/firebase/firestore.dart';
 import 'package:instagram/service/network/firebase/upload_post_profile_photo.dart';
 import 'package:instagram/ui/main/util_pages/home_page.dart';
+import 'package:palette_generator/palette_generator.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 
 // ignore: must_be_immutable
 class AboutPost extends StatefulWidget {
@@ -26,6 +28,12 @@ class _AboutPostState extends State<AboutPost> {
         .then((value) => {store(value)});
   }
 
+  Future<Color> getImagePalette (ImageProvider imageProvider) async {
+    final PaletteGenerator paletteGenerator = await PaletteGenerator
+        .fromImageProvider(imageProvider);
+    return paletteGenerator.dominantColor!.color;
+  }
+
   store(String img_url) async{
     Post post = Post(img_post: img_url, caption: caption.text.trim());
     await DataService.storePost(post).then((value) => {
@@ -35,13 +43,29 @@ class _AboutPostState extends State<AboutPost> {
     });
   }
 
+  Color mainColor = const Color.fromRGBO(0, 0, 0, 0);
+
+  getColor() async{
+    getImagePalette(FileImage(File(widget.image))).then((value) => {
+      setState((){
+        mainColor = value;
+      })
+    });
+  }
+
+  @override
+  void initState() {
+    getColor();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.black,
+            backgroundColor: mainColor,
             title: const Text('New Post'),
             actions: [
               GestureDetector(
@@ -70,7 +94,12 @@ class _AboutPostState extends State<AboutPost> {
                     SizedBox(
                       width: 70,
                       height: 70,
-                      child: Image.file(fit: BoxFit.cover, File(widget.image)),
+                      child: Image.file(
+                          fit: BoxFit.cover,
+                          File(
+                              widget.image
+                          )
+                      ),
                     ),
                     const SizedBox(
                       width: 15,
